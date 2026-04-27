@@ -22,7 +22,7 @@
 
 ### 安装步骤
 
-#### 方式一：从 NPM 安装（推荐）
+#### 方式一：从 NPM 安装（不推荐，防止投毒）
 
 ```bash
 npm install -g @puito/forge
