@@ -13,8 +13,9 @@ src/
 
 # Documentation
 方案.md
-*.md
-!README.md
+USAGE.md
+TEMPLATE_GUIDE.md
+RELEASE_GUIDE.md
 
 # Build tools
 tsconfig.json

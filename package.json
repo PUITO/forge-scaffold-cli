@@ -18,7 +18,6 @@
         "start": "node bin/forge.js",
         "clean": "rimraf dist",
         "prebuild": "npm run clean",
-        "prepublishOnly": "npm run build",
         "lint": "echo \"No linting configured\"",
         "test": "echo \"No tests configured\""
     },
@@ -43,6 +42,7 @@
     "engines": {
         "node": ">=16.0.0"
     },
+    "private": true,
     "dependencies": {
         "commander": "^12.0.0",
         "inquirer": "^9.2.0",
