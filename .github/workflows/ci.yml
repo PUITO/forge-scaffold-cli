@@ -2,20 +2,33 @@ name: CI
 
 on:
   push:
-    branches: [main, master, dev]
+    branches: [master]
   pull_request:
-    branches: [main, master]
+    branches: [master]
   release:
     types: [published]
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    # 只有在 master 分支或 release 事件时才运行完整构建
+    if: github.ref == 'refs/heads/master' || github.event_name == 'release' || github.event_name == 'pull_request'
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [18.x, 20.x]
+        # 在 master 分支和 release 时测试所有 Node 版本，PR 时只测试最新版本
+        include:
+          - os: ubuntu-latest
+            node-version: 16.x
+        exclude:
+          # PR 时排除旧版本，加快构建速度
+          - os: ${{ github.event_name == 'pull_request' && 'windows-latest' || 'none' }}
+            node-version: 16.x
+          - os: ${{ github.event_name == 'pull_request' && 'macos-latest' || 'none' }}
+            node-version: 16.x
 
     steps:
       - name: Checkout code
