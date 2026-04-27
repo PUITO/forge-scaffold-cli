@@ -1,0 +1,65 @@
+{
+    "name": "@puito/forge",
+    "version": "1.0.0",
+    "description": "Forge - 一键锻造你的项目模板",
+    "main": "./dist/cli.js",
+    "bin": {
+        "forge": "./bin/forge.js"
+    },
+    "files": [
+        "bin",
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "dev": "ts-node src/cli.ts",
+        "start": "node bin/forge.js",
+        "clean": "rimraf dist",
+        "prebuild": "npm run clean",
+        "prepublishOnly": "npm run build",
+        "lint": "echo \"No linting configured\"",
+        "test": "echo \"No tests configured\""
+    },
+    "keywords": [
+        "scaffold",
+        "template",
+        "cli",
+        "generator",
+        "forge",
+        "puito"
+    ],
+    "author": "PUITO",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/PUITO/forge-scaffold-cli.git"
+    },
+    "bugs": {
+        "url": "https://github.com/PUITO/forge-scaffold-cli/issues"
+    },
+    "homepage": "https://github.com/PUITO/forge-scaffold-cli#readme",
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "dependencies": {
+        "commander": "^12.0.0",
+        "inquirer": "^9.2.0",
+        "fs-extra": "^11.2.0",
+        "ejs": "^3.1.10",
+        "chalk": "^5.3.0",
+        "ora": "^8.0.0",
+        "degit": "^2.8.4"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "@types/fs-extra": "^11.0.0",
+        "@types/ejs": "^3.1.5",
+        "@types/inquirer": "^9.0.7",
+        "@types/degit": "^2.8.6",
+        "typescript": "^5.0.0",
+        "ts-node": "^10.9.0",
+        "rimraf": "^5.0.0"
+    }
+}

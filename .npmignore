@@ -1,0 +1,37 @@
+# Source files
+src/
+*.ts
+!dist/
+
+# Development
+.git/
+.github/
+.gitignore
+.lingma/
+.vscode/
+.idea/
+
+# Documentation
+方案.md
+*.md
+!README.md
+
+# Build tools
+tsconfig.json
+.eslintrc*
+.prettierrc*
+
+# Tests
+test/
+tests/
+__tests__/
+*.test.ts
+*.spec.ts
+coverage/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
