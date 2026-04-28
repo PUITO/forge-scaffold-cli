@@ -20,7 +20,7 @@
         "prebuild": "npm run clean",
         "lint": "echo \"No linting configured\"",
         "test": "echo \"No tests configured\"",
-        "release": "node scripts/release.js"
+        "release": "node scripts/release.cjs"
     },
     "keywords": [
         "scaffold",
