@@ -5,116 +5,19 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
-  release:
-    types: [published]
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
-
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [18.x, 22.x]
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '18'
           cache: 'npm'
 
-      - name: Install dependencies
-        run: |
-          echo "Installing dependencies..."
-          npm ci || npm install
-          echo "Installation complete"
-          echo "Installed packages:"
-          npm list --depth=0
+      - run: npm ci
 
-      - name: Debug environment
-        run: |
-          echo "Node version: $(node --version)"
-          echo "NPM version: $(npm --version)"
-          echo "Working directory: $(pwd)"
-          echo "Files in root:"
-          ls -la
-        shell: bash
-
-      - name: Build
-        run: |
-          echo "Starting build..."
-          npm run build
-          echo "Build completed successfully"
-          echo "Checking build output..."
-          if [ -d "dist" ]; then
-            echo "dist directory exists"
-            ls -la dist/
-          else
-            echo "ERROR: dist directory does not exist!"
-            exit 1
-          fi
-        shell: bash
-
-      - name: Verify build output
-        run: |
-          echo "Build output:"
-          if [ "$RUNNER_OS" = "Windows" ]; then dir dist && dir bin; else ls -la dist/ && ls -la bin/; fi
-        shell: bash
-
-      - name: Verify CLI
-        run: node bin/forge.js --version
-
-      - name: Upload build artifacts
-        if: github.event_name == 'release'
-        uses: actions/upload-artifact@v4
-        with:
-          name: forge-build-${{ matrix.os }}-node${{ matrix.node-version }}
-          path: |
-            bin/
-            dist/
-            package.json
-            README.md
-            LICENSE
-          retention-days: 30
-
-  create-release-assets:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'release'
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: Create release archives
-        run: |
-          mkdir -p releases
-          for dir in artifacts/forge-build-*; do
-            version=${GITHUB_REF#refs/tags/v}
-            name=$(basename $dir)
-            cd $dir
-            zip -r ../../releases/forge-${version}-${name}.zip .
-            cd ../..
-          done
-
-      - name: Upload release assets
-        uses: softprops/action-gh-release@v2
-        with:
-          files: releases/*.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run build
