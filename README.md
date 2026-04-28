@@ -139,12 +139,23 @@ sudo ln -s /path/to/forge.sh /usr/local/bin/forge
 forge create <template-name> --name my-project
 ```
 
+**支持两种方式：**
+
+- **远程模板**：使用模板名称（从配置的仓库下载）
+- **本地模板**：使用本地路径（适合开发测试）
+
 例如：
 
 ```bash
+# 使用远程模板
 forge create vue3-vite --name my-dashboard
 forge create react-ts-vite --name my-app
 forge create android-compose --name MyAwesomeApp
+
+# 使用本地模板（开发测试推荐）
+forge create ./my-local-template --name my-app
+forge create ../templates/vue3-template --name my-project
+forge create D:\templates\my-template --name my-app
 ```
 
 ### 2. 列出可用模板
@@ -336,6 +347,34 @@ npm link
 # 运行 CLI
 forge --help
 ```
+
+### 快速开发模板（使用本地路径）
+
+在开发模板时，可以使用本地路径来避免每次都从远程仓库下载，大幅提升开发效率：
+
+```bash
+# 1. 准备模板目录
+mkdir my-template
+cd my-template
+
+# 2. 创建 forge.json
+echo '{
+  "name": "my-template",
+  "description": "我的测试模板",
+  "root": "."
+}' > forge.json
+
+# 3. 添加模板文件
+echo "Hello <%= projectName %>" > README.md.ejs
+
+# 4. 使用本地路径测试
+forge create ./my-template --name test-project
+```
+
+**优势：**
+- 无需推送到 Git 仓库
+- 修改后立即生效
+- 适合快速迭代和调试
 
 ### 项目结构
 

@@ -72,10 +72,59 @@ async function fetchRegistry(): Promise<TemplateRegistry> {
 
 /**
  * 加载模板
- * @param templateName 模板名称
+ * @param templateName 模板名称或本地路径
  * @returns 模板配置
  */
 export async function loadTemplate(templateName: string): Promise<TemplateConfig> {
+  // 检查是否为本地路径（以 ./ 或 / 开头，或包含 :\ 的 Windows 路径）
+  const isLocalPath = templateName.startsWith('./') || 
+                      templateName.startsWith('/') || 
+                      templateName.startsWith('../') ||
+                      /^[a-zA-Z]:\\/.test(templateName);
+
+  if (isLocalPath) {
+    return await loadLocalTemplate(templateName);
+  }
+
+  // 从远程仓库加载
+  return await loadRemoteTemplate(templateName);
+}
+
+/**
+ * 从本地路径加载模板
+ * @param localPath 本地模板路径
+ * @returns 模板配置
+ */
+async function loadLocalTemplate(localPath: string): Promise<TemplateConfig> {
+  const absolutePath = path.resolve(process.cwd(), localPath);
+
+  // 检查路径是否存在
+  if (!await fs.pathExists(absolutePath)) {
+    throw new Error(`本地模板路径不存在: ${absolutePath}`);
+  }
+
+  // 读取 forge.json
+  const forgeJsonPath = path.join(absolutePath, 'forge.json');
+  if (!await fs.pathExists(forgeJsonPath)) {
+    throw new Error(`模板缺少 forge.json 配置文件: ${forgeJsonPath}`);
+  }
+
+  const forgeJson = await fs.readJson(forgeJsonPath);
+
+  console.log(`使用本地模板: ${absolutePath}`);
+
+  return {
+    ...forgeJson,
+    cacheDir: absolutePath
+  };
+}
+
+/**
+ * 从远程仓库加载模板
+ * @param templateName 模板名称
+ * @returns 模板配置
+ */
+async function loadRemoteTemplate(templateName: string): Promise<TemplateConfig> {
   const registry = await fetchRegistry();
   const templateRepo = await getTemplateRepo();
 

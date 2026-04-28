@@ -13,7 +13,7 @@ program
 
 program
   .command('create <template>')
-  .description('创建新项目')
+  .description('创建新项目（支持模板名称或本地路径）')
   .option('-n, --name <name>', '项目名称')
   .option('-p, --path <path>', '生成路径', process.cwd())
   .action(async (templateName: string, opts: any) => {
