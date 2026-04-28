@@ -84,6 +84,53 @@ node bin/forge.js --version
 forge --version
 ```
 
+## ⚙️ 环境变量配置（生产模式）
+
+如果你从 Release 下载了 zip 包并解压使用，需要确保在包含 `node_modules` 的目录下运行。
+
+### 方式一：在解压目录中运行（推荐）
+
+```powershell
+# Windows
+cd D:\tools\my_tools\forge
+node bin/forge.js --version
+```
+
+```bash
+# Linux/macOS
+cd /path/to/forge
+node bin/forge.js --version
+```
+
+### 方式二：配置 PATH 环境变量
+
+如果你想在任何地方直接使用 `forge` 命令，可以创建一个包装脚本：
+
+**Windows (forge.cmd):**
+
+```cmd
+@echo off
+node "D:\tools\my_tools\forge\bin\forge.js" %*
+```
+
+将 `forge.cmd` 所在的目录添加到系统 PATH。
+
+**Linux/macOS (forge.sh):**
+
+```bash
+#!/bin/bash
+node "/path/to/forge/bin/forge.js" "$@"
+```
+
+```bash
+chmod +x forge.sh
+sudo ln -s /path/to/forge.sh /usr/local/bin/forge
+```
+
+### 方式三：使用 npm link（开发模式）
+
+参见上方的“开发者模式”安装说明。
+
 ## 🚀 快速开始
 
 ### 1. 创建新项目
