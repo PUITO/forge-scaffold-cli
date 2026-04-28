@@ -145,11 +145,24 @@ GitHub Actions 会自动：
 
 ## Installation
 
+### For Developers
+
 ```bash
-npm install -g git+https://github.com/PUITO/forge-scaffold-cli.git#v1.1.0
+git clone https://github.com/PUITO/forge-scaffold-cli.git
+cd forge-scaffold-cli
+git checkout v1.1.0
+npm install
+npm run build
+npm link
 ```
 
-或者下载下方的预构建包使用。
+### For Users
+
+Download the pre-built package from the Assets section below, extract it, and run:
+
+```bash
+node bin/forge.js --version
+```
 
 **Full Changelog**: https://github.com/PUITO/forge-scaffold-cli/compare/v1.0.0...v1.1.0
 ```
@@ -202,20 +215,25 @@ zip -r forge-v1.1.0.zip forge-v1.1.0/
 
 发布后，用户可以通过以下方式安装：
 
-### 从 Git 安装指定版本
+### 方式一：使用 npm link（推荐用于开发）
 
 ```bash
-# 安装最新版本
-npm install -g git+https://github.com/PUITO/forge-scaffold-cli.git
+# 克隆仓库
+git clone https://github.com/PUITO/forge-scaffold-cli.git
+cd forge-scaffold-cli
 
-# 安装指定版本
-npm install -g git+https://github.com/PUITO/forge-scaffold-cli.git#v1.1.0
+# 切换到指定版本
+git checkout v1.1.0
 
-# 安装特定分支
-npm install -g git+https://github.com/PUITO/forge-scaffold-cli.git#main
+# 安装依赖并构建
+npm install
+npm run build
+
+# 创建全局链接
+npm link
 ```
 
-### 下载预构建包
+### 方式二：下载预构建包（推荐用于生产）
 
 1. 访问 [Releases 页面](https://github.com/PUITO/forge-scaffold-cli/releases)
 2. 下载对应版本的 zip 包
@@ -240,16 +258,6 @@ node bin/forge.js --version
 export PATH="/path/to/forge-v1.1.0/bin:$PATH"
 
 # Windows - 通过系统设置添加环境变量
-```
-
-### 本地开发安装
-
-```bash
-git clone https://github.com/PUITO/forge-scaffold-cli.git
-cd forge-scaffold-cli
-npm install
-npm run build
-npm link  # 创建全局链接
 ```
 
 ---

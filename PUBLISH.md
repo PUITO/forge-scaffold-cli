@@ -110,10 +110,38 @@ git push origin master --force
 
 发布后，用户可以通过以下方式安装：
 
-```bash
-# 安装最新版本
-npm install -g git+https://github.com/PUITO/forge-scaffold-cli.git
+### 方式一：使用 npm link（推荐用于开发）
 
-# 安装指定版本
-npm install -g git+https://github.com/PUITO/forge-scaffold-cli.git#v1.0.0
+```bash
+# 克隆仓库
+git clone https://github.com/PUITO/forge-scaffold-cli.git
+cd forge-scaffold-cli
+
+# 切换到指定版本
+git checkout v1.0.0
+
+# 安装依赖并构建
+npm install
+npm run build
+
+# 创建全局链接
+npm link
 ```
+
+### 方式二：下载 Release 包（推荐用于生产）
+
+1. 访问 [Releases 页面](https://github.com/PUITO/forge-scaffold-cli/releases)
+2. 下载对应版本的 zip 包
+3. 解压到任意目录
+4. 运行 CLI：
+
+```bash
+# Windows
+node bin/forge.js --version
+
+# Linux/macOS
+chmod +x bin/forge.js
+./bin/forge.js --version
+```
+
+**提示：** 可以将 `bin` 目录添加到系统 PATH 环境变量中，这样就可以在任何地方直接使用 `forge` 命令。
