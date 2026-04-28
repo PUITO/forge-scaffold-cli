@@ -19,7 +19,8 @@
         "clean": "rimraf dist",
         "prebuild": "npm run clean",
         "lint": "echo \"No linting configured\"",
-        "test": "echo \"No tests configured\""
+        "test": "echo \"No tests configured\"",
+        "release": "node scripts/release.js"
     },
     "keywords": [
         "scaffold",
