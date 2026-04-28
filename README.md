@@ -285,6 +285,9 @@ forge-scaffold-cli/
 │   └── ci.yml              # GitHub Actions CI/CD
 ├── bin/
 │   └── forge.js            # CLI 入口文件
+├── scripts/
+│   ├── version.cjs         # 版本管理脚本
+│   └── release.cjs         # 发布脚本
 ├── src/
 │   ├── cli.ts              # CLI 命令定义
 │   ├── config.ts           # 配置管理
@@ -294,17 +297,30 @@ forge-scaffold-cli/
 ├── package.json
 ├── tsconfig.json
 ├── .npmignore
-└── README.md
+├── README.md               # 项目主文档
+├── USAGE.md                # 使用指南
+├── TEMPLATE_GUIDE.md       # 模板开发指南
+├── RELEASE_GUIDE.md        # 版本发布指南
+└── PUBLISH.md              # 发布流程快速参考
 ```
 
 ### 版本发布
 
-1. 更新 `package.json` 中的版本号
-2. 创建 Git tag：`git tag v1.0.0`
-3. 推送 tag：`git push origin v1.0.0`
-4. GitHub Actions 会自动构建并创建 Release，附带编译好的文件
+使用自动化脚本简化发布流程：
 
-详细发布流程请参考 [RELEASE_GUIDE.md](./RELEASE_GUIDE.md)
+```bash
+# 1. 更新版本号（选择适当的类型）
+npm run version:patch   # 补丁版本: 1.0.0 -> 1.0.1
+npm run version:minor   # 次版本: 1.0.0 -> 1.1.0
+npm run version:major   # 主版本: 1.0.0 -> 2.0.0
+
+# 2. 发布（创建标签并推送到 GitHub）
+npm run release
+```
+
+GitHub Actions 会自动构建并发布到 Releases。
+
+详细发布流程请参考 [PUBLISH.md](./PUBLISH.md) 和 [RELEASE_GUIDE.md](./RELEASE_GUIDE.md)
 
 ## 🤝 贡献
 

@@ -7,31 +7,42 @@ on:
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: write
-      pull-requests: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18.x, 20.x]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
       - run: npm ci
 
       - run: npm run build
 
-      - name: Create Release Archive
-        run: |
-          zip -r forge-${{ github.ref_name }}.zip bin/ dist/ package.json README.md LICENSE
+      - name: Verify CLI
+        run: node bin/forge.js --version
 
-      - name: Create GitHub Release
+      - name: Create Release Archive
+        shell: bash
+        run: |
+          mkdir -p forge-${{ github.ref_name }}-${{ matrix.os }}-node${{ matrix.node-version }}
+          cp -r bin dist package.json README.md LICENSE forge-${{ github.ref_name }}-${{ matrix.os }}-node${{ matrix.node-version }}/
+          zip -r forge-${{ github.ref_name }}-${{ matrix.os }}-node${{ matrix.node-version }}.zip forge-${{ github.ref_name }}-${{ matrix.os }}-node${{ matrix.node-version }}/
+
+      - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: forge-${{ github.ref_name }}.zip
-          generate_release_notes: true
+          files: forge-${{ github.ref_name }}-${{ matrix.os }}-node${{ matrix.node-version }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
