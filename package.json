@@ -1,6 +1,6 @@
 {
     "name": "@puito/forge",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Forge - 一键锻造你的项目模板",
     "main": "./dist/cli.js",
     "bin": {
