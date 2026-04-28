@@ -29,7 +29,10 @@ jobs:
 
       - name: Create Release Archive
         run: |
-          zip -r forge-${{ github.ref_name }}.zip bin/ dist/ package.json README.md LICENSE
+          # 安装生产依赖
+          npm ci --production
+          # 打包所有必要文件
+          zip -r forge-${{ github.ref_name }}.zip bin/ dist/ node_modules/ package.json README.md LICENSE
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
